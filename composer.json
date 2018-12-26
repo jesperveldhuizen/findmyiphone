@@ -4,7 +4,7 @@
     "homepage": "https://github.com/jesperveldhuizen/findmyiphone",
     "keywords": ["php", "iphone", "ios", "icloud", "findmyiphone"],
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Jesper Veldhuizen",
