@@ -5,7 +5,13 @@ This project is inspired by: https://github.com/joostfaassen/PHP-FindMyiPhone
 
 Code has been reformatted and old code is removed. This project is only for location Apple devices. It is not possible to send a beep, or lock your device.
 
-##Usage
+## Installation
+
+```
+composer require jesperveldhuizen/findmyiphone
+```
+
+## Usage
 
 ```php
 <?php
