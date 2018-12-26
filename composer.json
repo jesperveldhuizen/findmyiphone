@@ -1,0 +1,27 @@
+{
+    "name": "jesperveldhuizen/findmyiphone",
+    "description": "iPhone locator client",
+    "homepage": "https://github.com/jesperveldhuizen/findmyiphone",
+    "keywords": ["php", "iphone", "ios", "icloud", "findmyiphone"],
+    "type": "library",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Jesper Veldhuizen",
+            "email": "info@jesperveldhuizen.com",
+            "role": "Development"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FindMyiPhone\\": "src/"
+        }
+    },
+    "license": "Apache-2.0"
+}
