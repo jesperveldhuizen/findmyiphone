@@ -1,21 +1,11 @@
 {
     "name": "jesperveldhuizen/findmyiphone",
-    "description": "Find My iPhone client library for PHP",
-    "homepage": "http://www.github.com/jesperveldhuizen/PHP-FindMyiPhone",
+    "description": "iPhone locator client",
+    "homepage": "https://github.com/jesperveldhuizen/findmyiphone",
     "keywords": ["php", "iphone", "ios", "icloud", "findmyiphone"],
     "type": "library",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "authors": [
-        {
-            "name": "Al Beebe",
-            "email": "alan.beebe@gmail.com",
-            "role": "Development"
-        },
-        {
-            "name": "Joost Faassen",
-            "email": "j.faassen@linkorb.com",
-            "role": "Packaging for Composer"
-        },
         {
             "name": "Jesper Veldhuizen",
             "email": "info@jesperveldhuizen.com",
