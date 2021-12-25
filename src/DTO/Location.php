@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace FindMyiPhone;
+namespace Fieldhousen\FindMy\DTO;
 
 class Location
 {
     public function __construct(
         private int $timestamp,
-        private int $horizontalAccuracy,
+        private float $horizontalAccuracy,
         private string $positionType,
         private float $longitude,
         private float $latitude
@@ -25,12 +25,12 @@ class Location
         $this->timestamp = $timestamp;
     }
 
-    public function getHorizontalAccuracy(): int
+    public function getHorizontalAccuracy(): float
     {
         return $this->horizontalAccuracy;
     }
 
-    public function setHorizontalAccuracy(int $horizontalAccuracy): void
+    public function setHorizontalAccuracy(float $horizontalAccuracy): void
     {
         $this->horizontalAccuracy = $horizontalAccuracy;
     }

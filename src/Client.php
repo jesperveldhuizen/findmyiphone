@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace FindMyiPhone;
+namespace Fieldhousen\FindMy;
+
+use Fieldhousen\FindMy\DTO\Device;
+use Symfony\Component\HttpClient\HttpClient;
 
 class Client
 {
@@ -16,44 +19,36 @@ class Client
 
     public function getDevices(): array
     {
-        $client = new \GuzzleHttp\Client([
-            'base_uri' => self::ICLOUD_URL,
-        ]);
-
-        $response = $client->request('POST', 'fmipservice/device/'.$this->username.'/initClient', [
-            'auth' => [$this->username, $this->password],
-            'verify' => false,
+        $client = HttpClient::createForBaseUri(self::ICLOUD_URL, [
+            'auth_basic' => [$this->username, $this->password],
             'headers' => [
                 'User-Agent' => 'FindMyiPhone/472.1 CFNetwork/711.1.12 Darwin/14.0.0',
                 'X-Apple-Realm-Support' => '1.0',
                 'X-Apple-Find-API-Ver' => '3.0',
                 'X-Apple-AuthScheme' => 'UserIdGuest',
             ],
+            'verify_host' => false,
+            'verify_peer' => false,
         ]);
 
-        $body = json_decode($response->getBody()->getContents(), true);
-        if (empty($body)) {
-            throw new \UnderflowException('No devices found');
+        $url = sprintf('fmipservice/device/%s/initClient', $this->username);
+        $response = $client->request('POST', $url);
+
+        if ($response->getStatusCode() === 401) {
+            throw new \RuntimeException('Credentials are incorrect!');
         }
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \RuntimeException('Could not load devices!');
+        }
+
+        $body = json_decode($response->getContent(), true);
 
         $devices = [];
         foreach ($body['content'] as $row) {
-            $device = $this->generateDevice($row);
-            $devices[$device->getID()] = $device;
+            $devices[] = Device::create($row);
         }
 
         return $devices;
-    }
-
-    private function generateDevice(array $data): Device
-    {
-        $device = new Device($data['id'], $data['batteryLevel'], $data['batteryStatus'], $data['deviceClass'], $data['deviceDisplayName'], $data['rawDeviceModel'], $data['modelDisplayName'], $data['name']);
-
-        if (is_array($data['location'])) {
-            $location = new Location($data['location']['timeStamp'], $data['location']['horizontalAccuracy'], $data['location']['positionType'], $data['location']['longitude'], $data['location']['latitude']);
-            $device->setLocation($location);
-        }
-
-        return $device;
     }
 }

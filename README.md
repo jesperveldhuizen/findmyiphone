@@ -1,7 +1,6 @@
-PHP-FindMyiPhone
-================
+# PHP-FindMyiPhone
 
-## Local install
+### Local install
 
 ```bash
 cd qlico
@@ -12,33 +11,16 @@ make shell
 composer install
 ```
 
-## Installation
+### Installation in project
 
 ```bash
 composer require jesperveldhuizen/findmyiphone
 ```
 
-## Usage
+### Usage
 
-```php
-<?php
+See test.php for example.
 
-namespace FindMyiPhone;
-
-use GuzzleHttp\Exception\GuzzleException;
-
-require_once 'vendor/autoload.php';
-
-$fmi = new Client(':username', ':password');
-
-try {
-    $devices = $fmi->getDevices();
-} catch (\Exception | GuzzleException $e) {
-    die($e->getMessage());
-}
-
-echo '<pre>';
-print_r($devices);
+```bash
+php test.php :email :password
 ```
-
-The ```getDevices``` function returns the devices linked to the iCloud account. If location is found then a ```Location``` object will be available in the ```Device``` object.

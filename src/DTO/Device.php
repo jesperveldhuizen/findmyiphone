@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace FindMyiPhone;
+namespace Fieldhousen\FindMy\DTO;
 
 class Device
 {
-    private ?Location $location;
+    private ?Location $location = null;
 
     public function __construct(
         private string $id,
@@ -18,6 +18,20 @@ class Device
         private string $modelDisplayName,
         private string $name
     ) {
+    }
+
+    public static function create(array $data): self
+    {
+        $device = new self($data['id'], (float) $data['batteryLevel'], $data['batteryStatus'], $data['deviceClass'], $data['deviceDisplayName'], $data['rawDeviceModel'], $data['modelDisplayName'], $data['name']);
+
+        if (!is_array($data['location'])) {
+            return $device;
+        }
+
+        $location = new Location($data['location']['timeStamp'], (float) $data['location']['horizontalAccuracy'], $data['location']['positionType'], (float) $data['location']['longitude'], (float) $data['location']['latitude']);
+        $device->setLocation($location);
+
+        return $device;
     }
 
     public function getLocation(): ?Location
