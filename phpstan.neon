@@ -1,0 +1,18 @@
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+    bootstrapFiles:
+        - config/constants.php
+        - config/functions.php
+
+    ignoreErrors:
+        - '/Constant MYSQL_DB not found/'
+        - '/Constant MYSQL_HOST not found/'
+        - '/Constant MYSQL_PW not found/'
+        - '/Constant MYSQL_USER not found/'
+        - '/does not accept object\|null/'
+
+    excludes_analyse:
+        - src/Utils/CacheClearer.php
