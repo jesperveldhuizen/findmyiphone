@@ -1,41 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FindMyiPhone;
 
-/**
- * Class Client.
- */
 class Client
 {
-    /** @var string */
     private const ICLOUD_URL = 'https://fmipmobile.icloud.com';
 
-    /** @var string */
-    private $username;
-
-    /** @var string */
-    private $password;
-
-    /**
-     * Client constructor.
-     *
-     * @param string $username
-     * @param string $password
-     */
-    public function __construct(string $username, string $password)
-    {
-        $this->username = $username;
-        $this->password = $password;
+    public function __construct(
+        private string $username,
+        private string $password
+    ) {
     }
 
-    /**
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function getDevices()
+    public function getDevices(): array
     {
         $client = new \GuzzleHttp\Client([
-            'base_uri' => self::ICLOUD_URL
+            'base_uri' => self::ICLOUD_URL,
         ]);
 
         $response = $client->request('POST', 'fmipservice/device/'.$this->username.'/initClient', [
@@ -46,7 +28,7 @@ class Client
                 'X-Apple-Realm-Support' => '1.0',
                 'X-Apple-Find-API-Ver' => '3.0',
                 'X-Apple-AuthScheme' => 'UserIdGuest',
-            ]
+            ],
         ]);
 
         $body = json_decode($response->getBody()->getContents(), true);
@@ -63,21 +45,15 @@ class Client
         return $devices;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return Device
-     */
-    private function generateDevice(array $data)
+    private function generateDevice(array $data): Device
     {
-        $device = Device::create($data['id'], $data['batteryLevel'], $data['batteryStatus'], $data['deviceClass'], $data['deviceDisplayName'], $data['rawDeviceModel'], $data['modelDisplayName'], $data['name']);
+        $device = new Device($data['id'], $data['batteryLevel'], $data['batteryStatus'], $data['deviceClass'], $data['deviceDisplayName'], $data['rawDeviceModel'], $data['modelDisplayName'], $data['name']);
 
         if (is_array($data['location'])) {
-            $location = Location::create($data['location']['timeStamp'], $data['location']['horizontalAccuracy'], $data['location']['positionType'], $data['location']['longitude'], $data['location']['latitude']);
+            $location = new Location($data['location']['timeStamp'], $data['location']['horizontalAccuracy'], $data['location']['positionType'], $data['location']['longitude'], $data['location']['latitude']);
             $device->setLocation($location);
         }
 
         return $device;
     }
-
 }
