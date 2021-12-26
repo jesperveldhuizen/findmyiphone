@@ -10,25 +10,21 @@ class Device
 
     public function __construct(
         private string $id,
-        private float $batteryLevel,
-        private string $batteryStatus,
-        private string $class,
-        private string $displayName,
-        private string $model,
-        private string $modelDisplayName,
-        private string $name
+        private string $name,
+        private string $deviceName,
+        private string $modelName
     ) {
     }
 
     public static function create(array $data): self
     {
-        $device = new self($data['id'], (float) $data['batteryLevel'], $data['batteryStatus'], $data['deviceClass'], $data['deviceDisplayName'], $data['rawDeviceModel'], $data['modelDisplayName'], $data['name']);
+        $device = new self($data['id'], $data['name'], $data['deviceDisplayName'], $data['modelDisplayName']);
 
         if (!is_array($data['location'])) {
             return $device;
         }
 
-        $location = new Location($data['location']['timeStamp'], (float) $data['location']['horizontalAccuracy'], $data['location']['positionType'], (float) $data['location']['longitude'], (float) $data['location']['latitude']);
+        $location = new Location($data['location']['timeStamp'], (float) $data['location']['longitude'], (float) $data['location']['latitude']);
         $device->setLocation($location);
 
         return $device;
@@ -54,66 +50,6 @@ class Device
         $this->id = $id;
     }
 
-    public function getBatteryLevel(): float
-    {
-        return $this->batteryLevel;
-    }
-
-    public function setBatteryLevel(float $batteryLevel): void
-    {
-        $this->batteryLevel = $batteryLevel;
-    }
-
-    public function getBatteryStatus(): string
-    {
-        return $this->batteryStatus;
-    }
-
-    public function setBatteryStatus(string $batteryStatus): void
-    {
-        $this->batteryStatus = $batteryStatus;
-    }
-
-    public function getClass(): string
-    {
-        return $this->class;
-    }
-
-    public function setClass(string $class): void
-    {
-        $this->class = $class;
-    }
-
-    public function getDisplayName(): string
-    {
-        return $this->displayName;
-    }
-
-    public function setDisplayName(string $displayName): void
-    {
-        $this->displayName = $displayName;
-    }
-
-    public function getModel(): string
-    {
-        return $this->model;
-    }
-
-    public function setModel(string $model): void
-    {
-        $this->model = $model;
-    }
-
-    public function getModelDisplayName(): string
-    {
-        return $this->modelDisplayName;
-    }
-
-    public function setModelDisplayName(string $modelDisplayName): void
-    {
-        $this->modelDisplayName = $modelDisplayName;
-    }
-
     public function getName(): string
     {
         return $this->name;
@@ -122,5 +58,25 @@ class Device
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getDeviceName(): string
+    {
+        return $this->deviceName;
+    }
+
+    public function setDeviceName(string $deviceName): void
+    {
+        $this->deviceName = $deviceName;
+    }
+
+    public function getModelName(): string
+    {
+        return $this->modelName;
+    }
+
+    public function setModelName(string $modelName): void
+    {
+        $this->modelName = $modelName;
     }
 }
