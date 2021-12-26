@@ -1,4 +1,4 @@
-# PHP-FindMyiPhone
+# FindMy
 
 ### Local install
 

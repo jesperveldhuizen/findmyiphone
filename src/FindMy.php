@@ -7,9 +7,10 @@ namespace Fieldhousen\FindMy;
 use Fieldhousen\FindMy\DTO\Device;
 use Symfony\Component\HttpClient\HttpClient;
 
-class Client
+class FindMy
 {
     private const ICLOUD_URL = 'https://fmipmobile.icloud.com';
+    private const ICLOUD_PATH = '/fmipservice/device/%s/initClient';
 
     public function __construct(
         private string $username,
@@ -31,7 +32,7 @@ class Client
             'verify_peer' => false,
         ]);
 
-        $url = sprintf('fmipservice/device/%s/initClient', $this->username);
+        $url = sprintf(self::ICLOUD_PATH, $this->username);
         $response = $client->request('POST', $url);
 
         if ($response->getStatusCode() === 401) {
